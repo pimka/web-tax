@@ -1,0 +1,21 @@
+{% extends 'nalog/base.html' %}
+
+{% block title_block %}
+    Login
+{% endblock %}
+
+{% block body_block %}
+    <div class="h4">Войти:</div>
+    <form id="login_form" method="post" action"={% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Введите имя пользователя" value="">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword">Пароль:</label>
+            <input type="password" class="form-control" id="inputPassword" name="password" placeholder="123" value="">
+        </div>
+        <input type="submit" class="btn btn-default" name="submit" value="Войти" />
+    </form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'nalog/base.html' %}
+
+{% block title_block %}
+    Операции
+{% endblock %}
+
+{% block body_block %}
+    <div class="h1">Ваши операции</div>
+    {% if users_list %}
+        <table class="table table-bordered" border="1">
+            <tr>
+                <th>Дата</th>
+                <th>Результат</th>
+            </tr>
+            <br />
+            {% for user in users_list %}
+                <tr>
+                    <th>{{user.dateStart}}</th>
+                    <th>{{user.result}}</th>
+                </tr>
+            {% endfor %}
+        <table>
+    {% else %}
+        Пока еще нет операций
+    {% endif %}
+
+{% endblock %}

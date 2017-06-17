@@ -1,0 +1,40 @@
+{% extends 'nalog/base.html' %}
+
+{% block title_block %}
+    Домашняя страница
+{% endblock %}
+
+{% block body_block %}
+    <div class="h3 text-center"><strong>Выберите налоговую ставку</strong></div>
+    <form action="" method="post" id="game-form">
+        <div class="form-group">
+            <label id="sum">Сумма: </label>
+            {% csrf_token %}
+            <input id="num" class="form-control" type="text" value="" name="number" placeholder="50000" autocomplete="off"><br />
+            <input id="radio13perdiv" class="radiobtn" type="radio" name="per" value="13perdiv">Дивиденды 13%<br>
+            <input id="radio13per" class="radiobtn" type="radio" name="per" checked value="13per">Заработная плата 13%<br>
+            <input id="radio30per" class="radiobtn" type="radio" name="per" value="30per">Нерезиденты 30%<br>
+            <div class="checkbox">
+                <input id="checkradioCountChild" class="checkbox" type="checkbox" value="countChild">Количество детей:<br>
+                <input class="form-control" type="text" id="otherValue" name="other" placeholder="2">
+                <input id="radioChildInv" class="checkbox" type="checkbox" value="childInv">Ребенок-инвалид<br>
+            </div>
+            <input id="button" class="btn btn-default" type="submit" value="Отправить" name="" />
+            <p><label id='error'></label></p>
+        </div>
+    </form>
+    <script>
+        var otherCheckbox = document.querySelector('input[value="countChild"]');
+        var otherText = document.querySelector('input[id="otherValue"]');
+        otherText.style.visibility = 'hidden';
+
+        otherCheckbox.onchange = function() {
+        if(otherCheckbox.checked) {
+            otherText.style.visibility = 'visible';
+            otherText.value = '';
+        } else {
+            otherText.style.visibility = 'hidden';
+            }
+        };
+    </script>
+{% endblock %}
