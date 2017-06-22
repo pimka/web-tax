@@ -22,6 +22,11 @@
                     <div class="navbar-header">
                         <li><a class="navbar-brand" href="{% url 'index' %}">Расчет подоходного налога</a></li>
                     </div>
+                    <ul class="nav navbar-nav">
+                        {% if user.is_staff %}
+                            <li><a href="{% url 'calc' %}">Расчеты</a></li>
+                        {% endif %}
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
                             <li><<a class="navbar-brand" href="{% url 'office' %}"></span> Приветствуем, {{ user.username }}</a></li>

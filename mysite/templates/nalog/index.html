@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body_block %}
+    {% if user.is_authenticated %}
     <div class="h3 text-center"><strong>Выберите налоговую ставку</strong></div>
     <form action="" method="post" id="game-form">
         <div class="form-group">
@@ -20,7 +21,7 @@
                 <input id="radioChildInv" class="checkbox" type="checkbox" value="childInv">Ребенок-инвалид<br>
             </div>
             <input id="button" class="btn btn-default" type="submit" value="Отправить" name="" />
-            <p><label id='error'></label></p>
+            <p><label for="num" id='error'></label></p>
         </div>
     </form>
     <script>
@@ -37,4 +38,8 @@
             }
         };
     </script>
+    <script src="/static/js/game.js"></script>
+    {% else %}
+        <div class="h3 text-center"><strong>Пожалуйста, войдите или зарегистрируйтесь</strong></div>
+    {% endif %}
 {% endblock %}

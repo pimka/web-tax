@@ -1,0 +1,44 @@
+{% extends 'nalog/base.html' %}
+
+{% block title_block %}
+    Расчеты
+{% endblock %}
+
+{% block body_block %}
+    <div class="h1">Расчеты</div>
+    {% if users_list %}
+        <!--div>Best users based on score</div-->
+        <table class="table table-bordered" border="1">
+            <tr>
+                <th>Имя</th>
+                <th>Дата</th>
+                <th>З/П</th>
+                <th>Результат</th>
+                <th>Дивиденды</th>
+                <th>13%</th>
+                <th>30%</th>
+                <th>Дети</th>
+                <th>Количество детей</th>
+                <th>Дети-инвалиды</th>
+            </tr>
+            <br />
+            {% for user in users_list %}
+                <tr>
+                    <th>{{user.IDuser.username}}</th>
+                    <th>{{user.dateStart}}</th>
+                    <th>{{user.number}}</th>
+                    <th>{{user.result}}</th>
+                    <th>{{user.per13div}}</th>
+                    <th>{{user.per13}}</th>
+                    <th>{{user.per30}}</th>
+                    <th>{{user.checkChild}}</th>
+                    <th>{{user.countChild}}</th>
+                    <th>{{user.checkInv}}</th>
+                </tr>
+            {% endfor %}
+        <table>
+    {% else %}
+        Пока еще нет пользователей
+    {% endif %}
+
+{% endblock %}

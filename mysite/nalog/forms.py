@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserResults
+from .models import UserResults, UserProfile
 
 class BaseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -18,5 +18,5 @@ class UserForm(BaseForm):
 
 class UserProfileForm(BaseForm):
     class Meta:
-        model = UserResults
+        model = UserProfile
         fields = ()
