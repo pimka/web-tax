@@ -2,13 +2,11 @@ $(function() {
     $('#game-form').on('submit', function(event) {
         event.preventDefault();
         number = $('#num').val();
+        countChild = $('#otherValue').val();
         result = Number(number.value)
-        if (number.length > 0 && !isNaN(number) && number >= 1 && number <= 100) {
+        if (number.length > 0 && !isNaN(number) && number >= 1 && countChild >= 0) {
             console.log('click');
             $('#error').text('');
-            prev_tries = $('#prev_tries').text();
-            prev_tries += $('#num').val() + ' ';
-            $('#prev_tries').text(prev_tries);
             sendData();
         } else {
             //clear text field
@@ -24,15 +22,17 @@ $(function() {
             url : "",
             type : "POST",
             data : { number: $('#num').val(),
-                     prev_tries: $('#prev_tries').text(),
+                     countChild: $('#otherValue').val(),
+                     per13div: $('radio13perdiv').val(),
+                     per13: $('radio13per').val(),
+                     per30: $('radio30per').val(),
+                     checkChild: $('checkradioCountChild').val(),
+                     checkInv: $('radioChildInv').val(),
                      csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value},
             success : function (json) {
                 $('#num').val('');
                 console.log(json);
                 $('#message').text(json['message'])
-                if (json['result'] !== 'none') {
-                    $('#button').prop('disabled', true);
-                }
                 console.log("success");
             },
             error : function(xhr, errmsg, err) {
