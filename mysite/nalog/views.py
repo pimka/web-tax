@@ -11,11 +11,11 @@ def index(request):
     if request.POST.get('num') != 0 and request.method == 'POST':
         numberNew = request.POST.get('number')
         countChildNew = str(request.POST.get('countChild'))
-        per13divNew = bool(request.POST.get('per13div'))
-        per13New = bool(request.POST.get('per13'))
-        per30New = bool(request.POST.get('per30'))
-        checkChildNew = bool(request.POST.get('checkChild'))
-        checkInvNew = bool(request.POST.get('checkInv'))
+        per13divNew = str(request.POST.get('per13div'))
+        per13New = str(request.POST.get('per13'))
+        per30New = str(request.POST.get('per30'))
+        checkChildNew = str(request.POST.get('checkChild'))
+        checkInvNew = str(request.POST.get('checkInv'))
         startDateNew = timezone.now()
         user = request.user
         new = UserResults(IDuser=user, number=numberNew, countChild=countChildNew, per13div=per13divNew,
@@ -73,26 +73,10 @@ def user_logout(request):
 
 def office(request):
     '''#users_list = UserResults.objects.order_by('-score')[:10]
-    #users_list = UserResults.objects.filter(pk = IDuser).order_by('-dateStart')
-    numberNew = request.POST.get('number')
-    #UserResults.objects.update(number=numberNew)
-    countChildNew = str(request.POST.get('countChild'))
-    #UserResults.objects.update(countChild=countChildNew)
-    per13divNew = bool(request.POST.get('per13div'))
-    #UserResults.objects.update(per13div=per13divNew)
-    per13New = bool(request.POST.get('per13'))
-    #UserResults.objects.update(per13=per13New)
-    per30New = bool(request.POST.get('per30'))
-    #UserResults.objects.update(per30=per30New)
-    checkChildNew = bool(request.POST.get('checkChild'))
-    #UserResults.objects.update(checkChild=checkChildNew)
-    checkInvNew = bool(request.POST.get('checkInv'))
-    #UserResults.objects.update(checkInv=checkInvNew)
+    #users_list = UserResults.objects.filter(pk = IDuser).order_by('-dateStart')'''
     user = request.user
-    new = UserResults(IDuser=user, number=numberNew, countChild=countChildNew, per13div=per13divNew,
-                        per13=per13New, per30=per30New, checkChild=checkChildNew, checkInv=checkInvNew)
-    new.save()'''
-    users_list = UserResults.objects.order_by('-dateStart')
+    users_list = UserResults.objects.filter(IDuser=user).order_by('-dateStart')
+    #users_list = UserResults.objects.order_by('-dateStart')
     context_dict = {'users_list': users_list}
     return render(request, 'nalog/office.html', context_dict)
 
