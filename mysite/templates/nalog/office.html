@@ -7,19 +7,32 @@
 {% block body_block %}
     <div class="h1">Ваши операции</div>
     {% if users_list %}
-        <table class="table table-bordered" border="1">
+        <table id="user_list" class="table table-striped table-bordered" border="1">
+            <thead>
             <tr>
                 <th>Дата</th>
+                <th>Значение</th>
                 <th>Результат</th>
             </tr>
-            <br />
+            </thead>
+            </br>
+            <tbody>
             {% for user in users_list %}
+                
                 <tr>
-                    <th>{{user.dateStart}}</th>
-                    <th>{{user.result}}</th>
+                    <td>{{user.dateStart}}</td>
+                    <td>{{user.number}}</td>
+                    <td>{{user.result}}</td>
                 </tr>
+                
             {% endfor %}
-        <table>
+            </tbody>
+        </table>
+        <script>
+            $(function(){
+                $("#user_list").dataTable();
+            });
+        </script>
     {% else %}
         Пока еще нет операций
     {% endif %}

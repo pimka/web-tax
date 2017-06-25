@@ -7,36 +7,46 @@
 {% block body_block %}
     <div class="h1">Расчеты</div>
     {% if users_list %}
-        <!--div>Best users based on score</div-->
-        <table class="table table-bordered" border="1">
-            <tr>
-                <th>Имя</th>
-                <th>Дата</th>
-                <th>З/П</th>
-                <th>Результат</th>
-                <th>Дивиденды</th>
-                <th>13%</th>
-                <th>30%</th>
-                <th>Дети</th>
-                <th>Количество детей</th>
-                <th>Дети-инвалиды</th>
-            </tr>
-            <br />
+        <table id="all_users" class="table table-striped table-bordered" border="1">
+            <thead>
+                <tr>
+                    <th>Имя</th>
+                    <th>Дата</th>
+                    <th>З/П</th>
+                    <th>Результат</th>
+                    <th>Дивиденды</th>
+                    <th>13%</th>
+                    <th>30%</th>
+                    <th>Дети</th>
+                    <th>Количество детей</th>
+                    <th>Дети-инвалиды</th>
+                </tr>
+            </thead>
+        </br>
+            <tbody>
             {% for user in users_list %}
                 <tr>
-                    <th>{{user.IDuser.username}}</th>
-                    <th>{{user.dateStart}}</th>
-                    <th>{{user.number}}</th>
-                    <th>{{user.result}}</th>
-                    <th>{{user.per13div}}</th>
-                    <th>{{user.per13}}</th>
-                    <th>{{user.per30}}</th>
-                    <th>{{user.checkChild}}</th>
-                    <th>{{user.countChild}}</th>
-                    <th>{{user.checkInv}}</th>
+                    <td>{{user.IDuser.username}}</td>
+                    <td>{{user.dateStart}}</td>
+                    <td>{{user.number}}</td>
+                    <td>{{user.result}}</td>
+                    <td>{{user.per13div}}</td>
+                    <td>{{user.per13}}</td>
+                    <td>{{user.per30}}</td>
+                    <td>{{user.checkChild}}</td>
+                    <td>{{user.countChild}}</td>
+                    <td>{{user.checkInv}}</td>
                 </tr>
             {% endfor %}
-        <table>
+            </tbody>
+        </table>
+        <script>
+            $(function(){
+                $("#all_users").dataTable({
+                    "order": [[ 1, "desc" ]]
+                });
+            });
+        </script>
     {% else %}
         Пока еще нет пользователей
     {% endif %}
