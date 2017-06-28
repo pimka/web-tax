@@ -1,26 +1,26 @@
 {% extends 'nalog/base.html' %}
 
 {% block title_block %}
-    Домашняя страница
+    Home
 {% endblock %}
 
 {% block body_block %}
     {% if user.is_authenticated %}
-    <div class="h3 text-center"><strong>Выберите налоговую ставку</strong></div>
+    <div class="h2">Select a tax rate</div>
     <form action="" method="post" id="game-form">
         <div class="form-group">
-            <label id="sum">Сумма: </label>
+            <label id="sum">Sum: </label>
             {% csrf_token %}
             <input id="num" class="form-control" type="text" value="" name="number" placeholder="50000" autocomplete="off"><br />
-            <input id="radio13perdiv" class="radiobtn" type="radio" name="per" value="13perdiv">Дивиденды 13%<br>
-            <input id="radio13per" class="radiobtn" type="radio" name="per" checked value="13per">Заработная плата 13%<br>
-            <input id="radio30per" class="radiobtn" type="radio" name="per" value="30per">Нерезиденты 30%<br>
+            <input id="radio13perdiv" class="radiobtn" type="radio" name="per" value="13perdiv">Dividents 13%<br>
+            <input id="radio13per" class="radiobtn" type="radio" name="per" checked value="13per">Salary 13%<br>
+            <input id="radio30per" class="radiobtn" type="radio" name="per" value="30per">Non-residents 30%<br>
             <div class="checkbox">
-                <input id="checkradioCountChild" class="checkbox" type="checkbox" value="countChild">Количество детей:<br>
-                <input class="form-control" type="text" id="otherValue" name="other" placeholder="2">
-                <input id="radioChildInv" class="checkbox" type="checkbox" value="childInv">Ребенок-инвалид<br>
+                <input id="checkradioCountChild" class="checkbox" type="checkbox" value="countChild">Amount of children:<br>
+                <input class="form-control" type="text" id="otherValue" name="other" placeholder="2" visible='hidden'>
+                <input id="radioChildInv" class="checkbox" type="checkbox" value="childInv">Disabled children<br>
             </div>
-            <input id="button" class="btn btn-default" type="submit" value="Отправить" name="" />
+            <input id="button" class="btn btn-default" type="submit" value="Send" name="" />
             <p><label for="num" id='error'></label></p>
         </div>
     </form>
@@ -40,6 +40,6 @@
     </script>
     <script src="/static/js/game.js"></script>
     {% else %}
-        <div class="h3 text-center"><strong>Пожалуйста, войдите или зарегистрируйтесь</strong></div>
+        <div class="h1">Please login or register</div>
     {% endif %}
 {% endblock %}

@@ -1,25 +1,26 @@
 {% extends 'nalog/base.html' %}
 
 {% block title_block %}
-    Расчеты
+    Calculations
 {% endblock %}
 
 {% block body_block %}
-    <div class="h1">Расчеты</div>
+{% if user.is_superuser %}
+    <div class="h1">Calculations</div>
     {% if users_list %}
         <table id="all_users" class="table table-striped table-bordered" border="1">
             <thead>
                 <tr>
-                    <th>Имя</th>
-                    <th>Дата</th>
-                    <th>З/П</th>
-                    <th>Результат</th>
-                    <th>Дивиденды</th>
+                    <th>Username</th>
+                    <th>Date</th>
+                    <th>Salary</th>
+                    <th>Result</th>
+                    <th>Dividends</th>
                     <th>13%</th>
                     <th>30%</th>
-                    <th>Дети</th>
-                    <th>Количество детей</th>
-                    <th>Дети-инвалиды</th>
+                    <th>Children</th>
+                    <th>Amount of children</th>
+                    <th>Disabled children</th>
                 </tr>
             </thead>
         </br>
@@ -40,15 +41,22 @@
             {% endfor %}
             </tbody>
         </table>
+        <input id="button" class="btn btn-default" type="button" value="To admin" name="" />
         <script>
             $(function(){
                 $("#all_users").dataTable({
                     "order": [[ 1, "desc" ]]
                 });
             });
+            $('#button').click(function() {
+                window.location.href = '/admin/nalog/userresults/';
+                return false;
+            });
         </script>
     {% else %}
         Пока еще нет пользователей
     {% endif %}
-
+{% else %}
+    <div class="h1">You haven't superuser</div>
+{% endif %}
 {% endblock %}

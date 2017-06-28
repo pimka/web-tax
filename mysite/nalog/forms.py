@@ -11,6 +11,8 @@ class BaseForm(forms.ModelForm):
 
 class UserForm(BaseForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    password_confirmation = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField(widget=forms.EmailInput())
 
     class Meta:
         model = User
@@ -20,3 +22,9 @@ class UserProfileForm(BaseForm):
     class Meta:
         model = UserProfile
         fields = ()
+
+class ContactForm(forms.Form):
+	subject = forms.CharField(max_length = 100, widget=forms.TextInput(attrs = {'class': 'form-control'}))
+	sender = forms.EmailField(widget=forms.EmailInput(attrs = {'class': 'form-control'}))
+	message = forms.CharField(widget=forms.Textarea(attrs = {'class': 'form-control'}))
+	copy = forms.BooleanField(required = False)

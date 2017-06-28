@@ -21,30 +21,51 @@
     </head>
     <body>
         <div class="wrapper container">
-            <nav class="navbar navbar-inverse">
+            <nav class="navbar navbar-inverse navbar-static-top">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <li><a class="navbar-brand" href="{% url 'index' %}">Расчет подоходного налога</a></li>
+                        <li><a class="navbar-brand" href="{% url 'index' %}">Calculation of income tax</a></li>
                     </div>
                     <ul class="nav navbar-nav">
-                        {% if user.is_staff %}
-                            <li><a href="{% url 'calc' %}">Расчеты</a></li>
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'calc' %}">Calculations</a></li>
                         {% endif %}
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'feedback' %}">Feedback</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
-                            <li><<a class="navbar-brand" href="{% url 'office' %}"></span> Приветствуем, {{ user.username }}</a></li>
-                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Выйти</a></li>
+                            <li><a class="navbar-brand" href="{% url 'office' %}"></span> Hello, {{ user.username }}</a></li>
+                            <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                         {% else %}
-                            <li><a href="#">Приветствуем, аноним</a></li>
-                            <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Зарегистрироваться</a></li>
-                            <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+                            <li><a href="#">Hello, user</a></li>
+                            <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                            <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Sign in</a></li>
                         {% endif %}
                     </ul>
                 </div>
             </nav>
             {% block body_block %}
             {% endblock %}
+        </div>
+        <div class="main_text">
+            <div class="col-md-12">
+                {% if messages %}
+                    <ul class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.level_tag}}" role="alert">
+                            {{ message.message }}
+                        </div>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+					<section>
+               		{% block content %}
+                	{% endblock %}
+					</section>
+					{% block extra_body %}{% endblock %}
+            </div>
         </div>
     </body>
 </html>

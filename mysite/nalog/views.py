@@ -3,14 +3,19 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from .forms import UserForm, UserProfileForm
+from .forms import UserForm, UserProfileForm, ContactForm
 from .models import UserResults
 from django.utils import timezone
+from django.contrib import messages
+from django.core.mail import send_mail, BadHeaderError
 
 def index(request):
     if request.POST.get('num') != 0 and request.method == 'POST':
         numberNew = request.POST.get('number')
-        countChildNew = str(request.POST.get('countChild'))
+        if str(request.POST.get('countChild')):
+            countChildNew = str(request.POST.get('countChild'))
+        else:
+            countChildNew = '0'
         per13divNew = str(request.POST.get('per13div'))
         per13New = str(request.POST.get('per13'))
         per30New = str(request.POST.get('per30'))
@@ -30,7 +35,7 @@ def register(request):
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm()
 
-        if user_form.is_valid():
+        if user_form.is_valid() and user_form.cleaned_data['password'] == user_form.cleaned_data['password_confirmation']:
             user = user_form.save(commit=False)
             user.set_password(user.password)
             user.save()
@@ -40,6 +45,11 @@ def register(request):
             profile.save()
 
             registered = True
+        elif user_form.data['password'] != user_form.data['password_confirmation']:
+            user_form.add_error('password_confirmation', 'The passwords do not match')
+        else:
+            print(user_form.errors)
+            print(profile_form.errors)
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
@@ -61,8 +71,8 @@ def user_login(request):
             login(request, user)
             return HttpResponseRedirect(reverse('index'))
         else:
-            print('Invalid login details: {0}, {1}'.format(username, password))
-            return HttpResponse('Invalid login details')
+            messages.warning(request, 'Invalid login details')
+            return render(request, 'nalog/login.html')
     else:
         return render(request, 'nalog/login.html', {})
 
@@ -72,11 +82,8 @@ def user_logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 def office(request):
-    '''#users_list = UserResults.objects.order_by('-score')[:10]
-    #users_list = UserResults.objects.filter(pk = IDuser).order_by('-dateStart')'''
     user = request.user
     users_list = UserResults.objects.filter(IDuser=user).order_by('-dateStart')
-    #users_list = UserResults.objects.order_by('-dateStart')
     context_dict = {'users_list': users_list}
     return render(request, 'nalog/office.html', context_dict)
 
@@ -84,3 +91,29 @@ def calculate(request):
     users_list = UserResults.objects.order_by('-dateStart')
     context_dict = {'users_list': users_list}
     return render(request, 'nalog/calc.html', context_dict)
+
+def feedback(request):
+	if request.method == 'POST':
+		form = ContactForm(request.POST)
+		#Если форма заполнена корректно, сохраняем все введённые пользователем значения
+		if form.is_valid():
+			subject = form.cleaned_data['subject']
+			sender = form.cleaned_data['sender']
+			message = form.cleaned_data['message']
+			copy = form.cleaned_data['copy']
+
+			recipients = ['zelenova.yulia@mail.ru']
+			#Если пользователь захотел получить копию себе, добавляем его в список получателей
+			if copy:
+				recipients.append(sender)
+			try:
+				send_mail(subject, message, 'zelenova.yulia@mail.ru', recipients)
+			except BadHeaderError: #Защита от уязвимости
+				return HttpResponse('Invalid header found')
+			#Переходим на другую страницу, если сообщение отправлено
+			return render(request, 'nalog/index.html')
+	else:
+		#Заполняем форму
+		form = ContactForm()
+	#Отправляем форму на страницу
+	return render(request, 'nalog/feedback.html', {'form': form})

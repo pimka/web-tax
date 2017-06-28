@@ -128,3 +128,8 @@ STATIC_URL = '/static/'
 
 LOGIN_URL = 'nalog/login'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mail.ru' #Например, smtp.gmail.com
+EMAIL_HOST_USER = 'zelenova.yulia@mail.ru' #Например, user@gmail.com. Именно его необходимо указывать как ВАШ_EMAIL_ДЛЯ_ОТПРАВКИ_СООБЩЕНИЯ в исходном коде предыдущего пункта
+EMAIL_HOST_PASSWORD = 'taoshan2105'
